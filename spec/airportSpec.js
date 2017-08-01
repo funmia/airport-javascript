@@ -5,7 +5,7 @@ describe('Airport', function() {
   beforeEach(function (){
     weather = jasmine.createSpyObj('weather', ['isStormy'])
     airport = new Airport(weather);
-    plane = jasmine.createSpyObj('plane', ['land', 'takeOff'])
+    plane = jasmine.createSpyObj('plane', ['land', 'takeOff', 'landed'])
   });
 
   describe('good weather', function() {
@@ -17,9 +17,9 @@ describe('Airport', function() {
         airport.land(plane);
         expect(airport.plane()).toEqual(plane);
       });
-      it('calls land method on the plane', function() {
+      it('calls land function on the plane', function() {
         airport.land(plane);
-        expect(airport.plane()).toEqual(plane);
+        expect(plane.land).toHaveBeenCalled();
       });
     });
 
@@ -45,11 +45,11 @@ describe('Airport', function() {
     });
 
     it('does not land a plane at an airport in bad weather', function() {
-      expect(function() {airport.land(plane); }).toThrowError('cannot land during storm');
+      expect(function() {airport.land(plane); }).toThrowError();
     });
 
     it('stops a plane taking off in stormy weather', function(){
-      expect(function() {airport.takeOff(plane); }).toThrowError('cannot takeoff during storm');
+      expect(function() {airport.takeOff(plane); }).toThrowError();
     });
   });
 });
