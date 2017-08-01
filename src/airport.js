@@ -10,7 +10,10 @@ Airport.prototype.plane = function() {
 Airport.prototype.land = function(plane) {
   if (this._isWeatherStormy()) {
     throw new Error('cannot land during storm');
+  } else if(this._plane) {
+    throw new Error('Airport is full');
   }
+  plane.land();
   this._plane = plane;
 };
 
@@ -18,6 +21,7 @@ Airport.prototype.takeOff = function(plane) {
   if (this._isWeatherStormy()) {
     throw new Error('cannot takeoff during storm');
   }
+  plane.takeOff();
   this._plane = null;
 };
 
