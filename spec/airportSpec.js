@@ -1,20 +1,35 @@
-describe('landing a plane', function() {
+describe('Airport', function() {
 
-var airport;
-var plane;
+  var airport, plane, weather;
 
   beforeEach(function (){
-    airport = new Airport();
+    // weather = jasmine.createSpy('weather')
+    weather = new Weather();
+    airport = new Airport(weather);
+    console.log(airport);
     plane = 'plane';
   });
 
-  it('lands a plane at an airport', function() {
-    airport.land(plane);
-    expect(airport.plane()).toEqual(plane);
+  describe('land', function() {
+    it('lands a plane at an airport', function() {
+      airport.land(plane);
+      expect(airport.plane()).toEqual(plane);
+    });
   });
 
-  it('takes off a plane from an airport', function() {
-    airport.takeOff(plane);
-    expect(airport.plane()).toEqual(null);
+  describe('takeOff', function() {
+    beforeEach(function () {
+      airport.land(plane);
+    });
+    it('takes off a plane from an airport in good weather', function() {
+      spyOn(weather, "isStormy").and.returnValue(false);
+      airport.takeOff(plane);
+      expect(airport.plane()).toEqual(null);
+    });
+    it('stops a plane taking off in stormy weather', function(){
+      spyOn(weather, "isStormy").and.returnValue(true);
+      airport.takeOff(plane);
+      expect(airport.plane()).toEqual(plane);
+    });
   });
 });
