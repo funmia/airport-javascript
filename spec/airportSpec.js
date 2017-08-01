@@ -1,9 +1,20 @@
 describe('landing a plane', function() {
-    it('lands a plane at an airport', function() {
-      var plane = 'plane';
-      var airport = new Airport();
 
-      airport.land(plane);
-      expect(airport.plane()).toEqual(plane);
-    });
+var airport;
+var plane;
+
+  beforeEach(function (){
+    airport = new Airport();
+    plane = 'plane';
+  });
+
+  it('lands a plane at an airport', function() {
+    airport.land(plane);
+    expect(airport.plane()).toEqual(plane);
+  });
+
+  it('takes off a plane from an airport', function() {
+    airport.takeOff(plane);
+    expect(airport.plane()).toEqual(null);
+  });
 });
